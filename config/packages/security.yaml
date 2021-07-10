@@ -1,0 +1,52 @@
+security:
+    password_hashers:
+        App\Entity\Utilisateur:
+           algorithm: bcrypt
+    # https://symfony.com/doc/current/security/experimental_authenticators.html
+    enable_authenticator_manager: true
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        users_in_memory: { memory: null }
+        in_database:
+            entity:
+                class: App\Entity\Utilisateur
+       
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            lazy: true
+
+            provider: in_database
+
+            form_login:
+                login_path: security_login
+                check_path: security_login
+
+            logout:
+                path: security_logout
+                target: forum
+
+
+            
+
+            
+
+            
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/profil, roles: ROLE_USER }
+        - { path: ^/moderation, roles: ROLE_MODERATEUR }
+
+    role_hierarchy:
+        ROLE_MODERATEUR: ROLE_USER
+        ROLE_ADMIN: ROLE_MODERATEUR

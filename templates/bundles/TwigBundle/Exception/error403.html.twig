@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accès interdit{% endblock %}
+
+{% block body %}
+<h1></h1>
+<section class="page-section bg-primary text-white text-center home">
+    <div class="container d-flex align-items-center flex-column home">
+
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light mt-2">
+            <div class="divider-custom-icon mt-1">><i class="fas fa-ban icone403"></i></div>
+            <h1 class="mt-1 statut403 ">{{status_code}} </h1>
+            <p class="masthead-subheading font-weight-light mb-5 mt-0 h3">Accès refusé...On ne passe pas !</p>
+
+        </div>
+        <!-- Masthead Subheading-->
+    </div>
+
+
+</section>
+
+
+{% endblock %}
+
+{% block stylesheets %}
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+    type="text/css" />
+{{ parent() }}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}

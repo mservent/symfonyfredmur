@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Effacer le commentaire{% endblock %}
+
+{% block body %}
+<h1>Commentaire</h1>
+<div class="position-absolute" style="right: 10px">
+    <a href="{{ path('admin_signalements')}}" class="btn btn-secondary btn-lg">Retour</a>
+</div>
+{% for message in app.flashes('info')%}
+<div class="alert alert-warning">
+    {{ message }}
+</div>
+{% endfor %}
+
+{{ form_start(formCommentaire) }}
+{{ form_row(formCommentaire.contenu,{'attr':
+{ 'style' : 'width: 100rem',
+'rows' : '20',
+'cols' : '30' }}) }}
+
+<button type="submit" class="btn btn-secondary">
+    Mise à jour
+</button>
+{{ form_end(formCommentaire) }}
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}

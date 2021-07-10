@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Affichage discussion{% endblock %}
+
+{% block body %}
+<article>
+    <p class="text-start h2">{{discussion.categorie.nom}}</p>
+    <div class="jumbotron text-center mt-5 mb-5">
+        <h3>{{ discussion.titre }}</h3>
+    </div>
+
+    <div class="metadata">Publié par <strong> {{ auteur }}</strong> le {{ discussion.createdAt | date('d/m/Y') }} à {{
+        discussion.createdAt | date('H:i') }}
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            {% if discussion.image %}
+            <img src="{{ vich_uploader_asset(discussion, 'imageFile') | imagine_filter('miniature') }}" alt="">
+            {% endif%}
+        </div>
+        <div class="col-sm">
+            {{ discussion.contenu | raw }}
+        </div>
+    </div>
+
+    {% if app.user == discussion.utilisateur %}
+    <a href="{{ path('forum_edit', { id: discussion.id})}}" class="btn btn-dark mt-5">Modifier</a>
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-7"></div>
+        <div class="col-sm-2">
+            <i class="fas fa-comment-alt icone"></i>
+            <span class="nb-comment">{{ discussion.commentaires | length }}</span>
+            <span class="label-comment">Commentaires</span>
+        </div>
+        <div class="col-sm-2">
+            <a href="{{ path('discussion_like', { id: discussion.id}) }}" class="btn btn-link js-like">
+                {% if app.user and discussion.isLikedByUser(app.user) and not
+                discussion.isDisLikedByUser(app.user)
+                %}
+                <i class="fas fa-thumbs-up icone"></i>
+                {% else %}
+                <i class="far fa-thumbs-up icone"></i>
+                {% endif%}
+                <span class="js-likes">{{ discussion.likes | length}}</span>
+                <p class="message"></p>
+            </a>
+
+            <a href="{{ path('discussion_dislike', { id: discussion.id}) }}" class="btn btn-link js-dislike">
+                {% if app.user and discussion.isDisLikedByUser(app.user) and not
+                discussion.isLikedByUser(app.user)
+                %}
+                <i class="fas fa-thumbs-down icone"></i>
+                {% else %}
+                <i class="far fa-thumbs-down icone"></i>
+                {% endif%}
+                <span class="js-dislikes">{{ discussion.dislikes | length}}</span>
+                <p class="message"></p>
+            </a>
+        </div>
+        <div class="col-sm-1">
+            <a href="{{ path('forum_report_discussion', { id: discussion.id})}}" class="btn btn-link rapport">
+                <i class="fas fa-flag icone"></i>
+                <span>Signaler un contenu inapproprié</span>
+            </a>
+        </div>
+
+    </div>
+
+
+</article>
+<hr>
+
+<section id="commentaires">
+
+    {% if not app.user %}
+    <div class="bg-white">
+        <a href="{{path('security_login')}}" class="btn btn-dark"> Connexion</a>
+    </div>
+
+    {% else %}
+    {% if authorizedUser %}
+    <div class="jumbotron text-center">
+        <h6>Publiez un commentaire</h6>
+    </div>
+    {{ form_start(commentaireForm) }}
+    {{ form_row(commentaireForm.contenu, {'attr':
+    { 'style' : 'width: 100%',
+    'rows' : '5',
+    'cols' : '30' }}) }}
+    {% endif %}
+    {% endif %}
+
+    <button type="submit" class="btn btn-dark">Envoyer !</button>
+    {{ form_end(commentaireForm) }}
+
+
+
+    <h2>{{ discussion.commentaires | length }} commentaires </h2>
+    {% for commentaire in discussion.commentaires %}
+    <div class="bg-white">
+        <div class="row">
+            <div class="col-sm-3"> Publié par
+                <strong>{{commentaire.utilisateur.nomUtilisateur}}</strong><br><small> Le {{commentaire.createdAt |
+                    date('d/m/Y à
+                    H:i')}}</small>
+            </div>
+            <div class="col-sm-1">
+                <a href="{{ path('forum_report_commentaire', { id: commentaire.id})}}" class="btn btn-link rapport">
+                    <i class="fas fa-flag icone"></i>
+                    <span>Signaler un contenu inapproprié</span>
+                </a>
+            </div>
+            <div class="col-sm">
+                {{commentaire.contenu | raw}}
+            </div>
+            <hr>
+        </div>
+
+    </div>
+    {% endfor %}
+    <div class="position-absolute mb-5" style="right: 10px">
+        <a href="{{ path('forum')}}" class="btn btn-secondary btn-lg">Retour</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{{ encore_entry_link_tags('index_discussion') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('likediscussion') }}
+{{ encore_entry_script_tags('dislikediscussion') }}
+{% endblock %}

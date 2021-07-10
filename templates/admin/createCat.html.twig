@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+{% if editMode %}
+<h1>Modifier une catégorie !</h1>
+{% else %}
+<h1>Créer une catégorie !</h1>
+{% endif %}
+
+{{ form_start(formCategorie) }}
+
+{{ form_row(formCategorie.nom)}}
+<button type="submit" class="btn btn-dark">
+    {% if editMode %}
+    Enregistrer les modifications
+    {% else %}
+    Ajouter la catégorie
+    {% endif %}
+</button>
+
+{{ form_end(formCategorie) }}
+
+{% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}

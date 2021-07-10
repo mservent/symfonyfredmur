@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<section class="page-section bg-primary text-white text-center home">
+    <div class="container d-flex align-items-center flex-column home">
+
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-icon mt-5"><i class="fas fa-dove"></i></div>
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-hand-peace"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Masthead Subheading-->
+        <p class="masthead-subheading font-weight-light mb-0">Le forum des gentils</p>
+        <h1 class="masthead-heading text-uppercase mt-5 mb-0">Méchants s'abstenir ! </h1>
+    </div>
+
+
+</section>
+
+{% endblock %}
+
+{% block stylesheets %}
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+    type="text/css" />
+{{ parent() }}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}

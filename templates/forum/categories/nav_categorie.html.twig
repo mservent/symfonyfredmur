@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste {% endblock %}
+
+{% block body %}
+
+<div>
+
+    {% for categorie in categories %}
+    <p> <a href="{{ path('forum_categorie_discussions', {id: categorie.id}) }}">{{categorie.nom}}</a>
+    </p>
+    {% endfor %}
+
+</div>
+
+
+
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}

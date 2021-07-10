@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+
+    {% for discussion in discussions %}
+    <article class="contenu">
+        <p class="text-start h2">{{discussion.categorie.nom}}</p>
+        <div class="row">
+            <div class="col-sm-5 ">Publié par <strong>{{discussion.utilisateur.nomUtilisateur}}</strong><small> le {{
+                    discussion.createdAt | date('d/m/Y') }} à {{ discussion.createdAt | date('H:i') }}</small></div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-4 categorie"></div>
+        </div>
+
+
+        <div class="jumbotron text-center">
+            <h2>{{ discussion.titre }}</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+                {% if discussion.image %}
+                <img src="{{ vich_uploader_asset(discussion, 'imageFile') | imagine_filter('miniature') }}"
+                    class="img-fluid" alt="">
+                {% endif%}
+            </div>
+            <div class="col-sm-4">{{ discussion.contenu | u.truncate(100, '...', false) }}</div>
+            <div class="col-sm-2">
+                <a href="{{ path('forum_show', { id: discussion.id})}}" class="btn btn-outline-secondary">Lire la
+                    suite</a>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-3 ms-0">
+                <a href="#" class="btn btn-link">
+                    <i class="fas fa-comment-alt icone"></i>
+                    <span class="nb-comment">{{ discussion.commentaires | length }}</span>
+                    <span class="label-comment">COMMENTAIRES</span>
+                </a>
+            </div>
+
+            <div class="col-sm-2">
+                <a href="{{ path('discussion_like', { id: discussion.id}) }}" class="btn btn-link js-like">
+                    {% if app.user and discussion.isLikedByUser(app.user) and not
+                    discussion.isDisLikedByUser(app.user)
+                    %}
+                    <i class="fas fa-thumbs-up icone"></i>
+                    {% else %}
+                    <i class="far fa-thumbs-up icone"></i>
+                    {% endif%}
+                    <span class="js-likes">{{ discussion.likes | length}}</span>
+                    <span class="js-label">J'aime</span>
+                    <p class="message"></p>
+                </a>
+            </div>
+            <div class="col-sm-3">
+                <a href="{{ path('discussion_dislike', { id: discussion.id}) }}" class="btn btn-link js-dislike">
+                    {% if app.user and discussion.isDisLikedByUser(app.user) and not
+                    discussion.isLikedByUser(app.user)
+                    %}
+                    <i class="fas fa-thumbs-down icone"></i>
+                    {% else %}
+                    <i class="far fa-thumbs-down icone"></i>
+                    {% endif%}
+                    <span class="js-dislikes">{{ discussion.dislikes | length}}</span>
+                    <span class="js-label">Je n'aime pas</span>
+                    <p class="message"></p>
+                </a>
+            </div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-1 me-0">
+                <a href="{{ path('forum_report_discussion', { id: discussion.id})}}" class="btn btn-link rapport">
+                    <i class="fas fa-flag icone"></i>
+                    <span>Signaler un contenu inapproprié</span>
+                </a>
+            </div>
+        </div>
+    </article>
+    <hr>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{{ encore_entry_link_tags('index_discussion') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('likediscussion') }}
+{{ encore_entry_script_tags('dislikediscussion') }}
+{% endblock %}

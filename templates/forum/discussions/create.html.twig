@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+{% if editMode %}
+<h1>Modifier une discussion !</h1>
+{% else %}
+<h1>Créer une discussion !</h1>
+{% endif %}
+
+{% if app.user %}
+{% if authorizedUser %}
+
+{{ form_start(formDiscussion) }}
+
+{{ form_row(formDiscussion.titre,{'attr': {'placeholder': "Titre de la discussion (au moins 10 caractères)" }}) }}
+{{ form_row(formDiscussion.categorie)}}
+{{ form_row(formDiscussion.contenu,{'attr':
+{ 'style' : 'width: 100rem',
+'rows' : '20',
+'cols' : '30' }}) }}
+{{ form_row(formDiscussion.imageFile,{'attr': {'placeholder': "Télécharger l'image" }}) }}
+
+<button type="submit" class="btn btn-dark">
+    {% if editMode %}
+    Enregistrer les modifications
+    {% else %}
+    Ajouter la discussion
+    {% endif %}
+</button>
+
+{{ form_end(formDiscussion) }}
+{% else %}
+<h2>Vous n'êtes pas autorisé à créer une discussion!</h2>
+{% endif %}
+{% else %}
+<h2>Vous ne pouvez pas créer une discussion si vous n'êtes pas connecté !</h2>
+<a href="{{path('security_login')}}" class="btn btn-primary">
+    Connexion
+</a>
+{% endif %}
+<div class="position-absolute" style="right: 10px">
+    <a href="{{ path('forum')}}" class="btn btn-secondary btn-lg">Retour</a>
+</div>
+{% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}

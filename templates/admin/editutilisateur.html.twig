@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Modifier l'utilisateur{% endblock %}
+
+{% block body %}
+<h1>Modifier l'utilisateur</h1>
+
+{% for message in app.flashes('info')%}
+<div class="alert alert-warning">
+    {{ message }}
+</div>
+{% endfor %}
+
+{{ form(userForm) }}
+<div class="position-absolute" style="right: 10px">
+    <a href="{{ path('admin_utilisateurs')}}" class="btn btn-secondary btn-lg">Retour</a>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}

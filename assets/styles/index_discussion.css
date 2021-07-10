@@ -1,0 +1,43 @@
+.js-label, .label-comment{
+    color: rgb(34, 65, 117);
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.icone{
+    color: rgb(34, 65, 117);
+}
+
+.fa-flag{
+    font-size: 2rem;
+}
+
+.js-likes, .js-dislikes, .nb-comment{
+    color: rgb(34, 65, 117);
+    font-weight: bold;
+}
+
+.message{
+    text-transform : none;
+    color: rgb(34, 65, 117);
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+a:link 
+{ 
+ text-decoration:none; 
+} 
+
+
+.rapport span{
+    visibility: hidden;
+    text-transform : none;
+    color: rgb(34, 65, 117);
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.rapport .icone:hover + span{
+   visibility: visible;
+}

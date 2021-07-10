@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+<h1>Liste des utilisateurs</h1>
+
+{% for message in app.flashes('info')%}
+<div class="alert alert-warning">
+    {{ message }}
+</div>
+{% endfor %}
+
+<table class="table table-hover">
+    <thead>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Rôles</th>
+        <th>Discussions</th>
+        <th>Commentaires</th>
+        <th>Statut</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                {% for role in user.roles %}
+                {% if role == "ROLE_USER" %}
+                Utilisateur
+                {% elseif role == "ROLE_ADMIN" %}
+                Administrateur
+                {% elseif role == "ROLE_MODERATEUR" %}
+                Modérateur
+                {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ user.discussion|length }}</td>
+            <td>{{ user.commentaire|length }}</td>
+            <td>
+                {% if user.isValid %}
+                Valide
+                {% else %}
+                Bloqué
+                {% endif %}
+            </td>
+            <td><a href="{{ path('admin_modifier_utilisateur', {'id': user.id}) }}" class="btn btn-dark">Modifier</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6">Il n'y a pas d'utilisateur inscrit </td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+
+
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}

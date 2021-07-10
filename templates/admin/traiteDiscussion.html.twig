@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Traitement discussion {% endblock %}
+
+{% block body %}
+<div class="container-sm">
+    <div class="row">
+        <div class="col-md-3 mt-2">
+            <h1>Discussion</h1>
+        </div>
+        <div class="col-md-1 offset-md-11 mt-0">
+            <a href="{{ path('admin_signalements')}}" class="btn btn-secondary btn-lg">Retour</a>
+        </div>
+    </div>
+
+    {% for message in app.flashes('info')%}
+    <div class="alert alert-warning ">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+
+    {{ form_start(formDiscussion) }}
+
+    <h3>{{ form_row(formDiscussion.titre, {'attr':
+        { 'style' : 'width: 90rem'}}) }}
+    </h3>
+    <h3>{{ form_row(formDiscussion.contenu,{'attr':
+        { 'style' : 'width: 90rem',
+        'rows' : '20',
+        'cols' : '30' }}) }}
+    </h3>
+    {{ form_row(formDiscussion.imageFile,{'attr': {'placeholder': "Télécharger l'image" }}) }}
+    <button type="submit" class="btn btn-secondary">
+        Enregistrer les modifications
+    </button>
+
+    {{ form_end(formDiscussion) }}
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}

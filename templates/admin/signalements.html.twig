@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+<h3>Liste des signalements</h3>
+
+{% for message in app.flashes('info')%}
+<div class="alert alert-warning">
+    {{ message }}
+</div>
+{% endfor %}
+<table class="table table-hover text-center">
+    <thead>
+        <th>Date</th>
+        <th>Rapporteur</th>
+        <th>Motif</th>
+        <th>Discussion</th>
+        <th>Commentaire</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for signalement in signalements %}
+        <tr class="bg-white">
+            <td>{{ signalement.createdAt | date('d/m/Y') }} à {{ signalement.createdAt | date('H:i') }}</td>
+            <td>{{ signalement.utilisateur.id}}</td>
+            <td>{{ signalement.motif}}</td>
+
+            {% if signalement.discussion is null%}
+            <td class="table-danger">NULL</td>
+            {% else %}
+            <td class="table-success">{{ signalement.discussion.id}}</td>
+            {% endif %}
+
+            {% if signalement.commentaire is null%}
+            <td class="table-danger">NULL</td>
+            {% else %}
+            <td class="table-success">{{ signalement.commentaire.id}}</td>
+            {% endif %}
+
+            {% if signalement.commentaire is not null %}
+            <td>
+                <a href="{{ path('admin_traiter_commentaire', {'id': signalement.commentaire.id}) }}"
+                    class="btn btn-outline-secondary">Modifier</a>
+                <br>
+                <a href="{{ path('admin_supprimer_commentaire', {'id': signalement.commentaire.id}) }}"
+                    class="btn btn-outline-secondary mt-2">Supprimer</a>
+            </td>
+            {% elseif signalement.discussion is not null %}
+            <td>
+                <a href="{{ path('admin_traiter_discussion', {'id': signalement.discussion.id}) }}"
+                    class="btn btn-outline-secondary mt-2">Modifier</a>
+            </td>
+            {% else %}
+            <td class="btn btn-warning"><a href="#">Modifier</a></td>
+            {% endif %}
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6">Il n'y a pas de signalements </td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+
+
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://kit.fontawesome.com/fd7413c868.js" crossorigin="anonymous"></script>
+{{ parent() }}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}

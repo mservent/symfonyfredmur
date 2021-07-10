@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Accueil{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
+    and uncomment the following Encore helpers to start using Symfony UX #}
+
+    <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="/build/app.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+    {% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-cyan-800">
+        <div class="container-fluid">
+            <a class="navbar-brand fs-1 fw-bold" href="{{ path('home')}}">
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">Kui-Kui</font>
+                </font>
+                <br>
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">Le forum des gentils</font>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+                aria-controls="navbarColor01" aria-expanded="false" aria-label="Basculer la navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('forum_navcategories') }}" role="button">Catégories</a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ path('forum')}}">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Discussions
+                            </font>
+                        </font><span class="visually-hidden">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">(actuel)</font>
+                            </font>
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('forum_create')}}">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Créer une discussion</font>
+                        </font>
+                    </a>
+                </li>
+
+                {% if not app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('security_login')}}">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Connexion</font>
+                        </font>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('security_registration')}}">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">S'inscrire</font>
+                        </font>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('security_logout')}}">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Déconnexion</font>
+                        </font>
+                    </a>
+                </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="true" aria-expanded="false">Administration</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ path('admin_utilisateurs')}}">Utilisateurs</a>
+                        <a class="dropdown-item" href="{{ path('admin_categorie')}}">Categories</a>
+                        <a class="dropdown-item" href="{{ path('admin_signalements')}}">Signalements</a>
+
+                    </div>
+                </li>
+                {% endif %}
+            </ul>
+
+        </div>
+        {% if app.user %}
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">
+                            <i class="fas fa-user utilisateur"></i>
+                        </font>
+                    </font>
+                </a>
+            </li>
+        </ul>
+        {% endif %}
+        </div>
+    </nav>
+
+
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+</body>
+
+</html>
